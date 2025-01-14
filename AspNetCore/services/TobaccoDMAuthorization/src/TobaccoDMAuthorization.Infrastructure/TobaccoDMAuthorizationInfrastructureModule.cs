@@ -1,6 +1,9 @@
 ﻿using Dedsi.CleanArchitecture.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TobaccoDMAuthorization.DmUsers;
 using TobaccoDMAuthorization.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.DependencyInjection;
 using Volo.Abp.Modularity;
 
 namespace TobaccoDMAuthorization;
@@ -17,5 +20,16 @@ public class TobaccoDMAuthorizationInfrastructureModule : AbpModule
         {
             options.AddDefaultRepositories(true);
         });
+        
+        Configure<AbpEntityOptions>(options =>
+        {
+            options.Entity<DmUser>(abpEntityOptions =>
+            {
+                abpEntityOptions.DefaultWithDetailsFunc = query => query
+                    .Include(o => o.UserRoles);
+            });
+
+        });
+
     }
 }

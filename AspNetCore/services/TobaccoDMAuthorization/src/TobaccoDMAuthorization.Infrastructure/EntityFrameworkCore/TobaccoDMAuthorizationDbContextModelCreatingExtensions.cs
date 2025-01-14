@@ -16,11 +16,28 @@ public static class TobaccoDMAuthorizationDbContextModelCreatingExtensions
             b.ToTable("DmUsers", TobaccoDMAuthorizationDomainOptions.DbSchemaName);
             b.HasKey(a => a.Id);
 
-            b.Property(a => a.EncryptionKey.Key).HasColumnName("EncryptionKey");
-            b.Property(a => a.EncryptionKey.Key).HasColumnName("EncryptionIv");
+            b.OwnsOne(a => a.EncryptionKey, a =>
+            {
+                a.Property(p => p.Key).HasColumnName("EncryptionKey");
+                a.Property(p => p.Iv).HasColumnName("EncryptionIv");
+                
+                // 忽略字段：只在程序中使用
+                a.Ignore(p => p.Encryption);
+            });
+            
+            // 用户拥有的角色
+            b.HasMany(e => e.UserRoles)
+                .WithOne()
+                .HasPrincipalKey(e => e.Id)
+                .HasForeignKey(a => a.UserId)
+                .IsRequired();
+        });
 
-            // 忽略字段：尽在程序中使用
-            b.Ignore(a => a.EncryptionKey.Encryption);
+        builder.Entity<DmUserRole>(b =>
+        {
+            b.ToTable("DmUserRoles", TobaccoDMAuthorizationDomainOptions.DbSchemaName);
+
+            b.HasKey(c => new { c.UserId, c.RoleId });
         });
     }
 }

@@ -10,7 +10,7 @@ public class TobaccoDMAuthorizationDomainOptions : DedsiCleanArchitectureDomainO
     
     public const string ConnectionStringName = "TobaccoDMAuthorizationDB";
     
-    public const string DbSchemaName = "TobaccoDMAuthorization";
+    public const string DbSchemaName = "dbo";
 
     public const string DbTablePrefix = "TobaccoDMAuthorization";
 }

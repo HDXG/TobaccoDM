@@ -82,6 +82,20 @@ public class DmUser: Entity<Guid>
     {
         Email = newEmail;
     }
+    
+    /// <summary>
+    /// 用户拥有的角色
+    /// </summary>
+    public ICollection<DmUserRole> UserRoles { get; private set; } = new List<DmUserRole>();
+
+    public void AddRole(DmUserRole role)
+    {
+        // 不存在就添加
+        if (!UserRoles.Any(x => x.RoleName == role.RoleName && x.RoleId == role.RoleId))
+        {
+            UserRoles.Add(role);
+        }
+    }
 }
 
 /// <summary>
