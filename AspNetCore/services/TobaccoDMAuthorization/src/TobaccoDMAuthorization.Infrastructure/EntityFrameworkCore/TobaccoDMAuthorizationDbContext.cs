@@ -1,5 +1,6 @@
 ﻿using Dedsi.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using TobaccoDMAuthorization.DmUsers;
 using Volo.Abp.Data;
 
 namespace TobaccoDMAuthorization.EntityFrameworkCore;
@@ -8,7 +9,10 @@ namespace TobaccoDMAuthorization.EntityFrameworkCore;
 public class TobaccoDMAuthorizationDbContext(DbContextOptions<TobaccoDMAuthorizationDbContext> options) 
     : DedsiEfCoreDbContext<TobaccoDMAuthorizationDbContext>(options)
 {
-
+    /// <summary>
+    /// 用户
+    /// </summary>
+    public DbSet<DmUser> DmUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
