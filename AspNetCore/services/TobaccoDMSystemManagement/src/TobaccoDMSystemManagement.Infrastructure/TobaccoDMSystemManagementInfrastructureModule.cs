@@ -1,11 +1,12 @@
-﻿using Dedsi.CleanArchitecture.Infrastructure;
+﻿using TobaccoDMSystemManagement.Core;
 using Volo.Abp.Modularity;
+
 namespace TobaccoDMSystemManagement.Infrastructure;
 
 [DependsOn(
-    typeof(DedsiCleanArchitectureInfrastructureModule)
-    )]
-public class TobaccoDMSystemManagementInfrastructureModule:AbpModule
+    typeof(TobaccoDMSystemManagementCoreModule)
+)]
+public class TobaccoDMSystemManagementInfrastructureModule : AbpModule
 {
 
 }

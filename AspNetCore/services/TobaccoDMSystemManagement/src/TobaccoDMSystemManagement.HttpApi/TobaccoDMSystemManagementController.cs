@@ -1,13 +1,10 @@
 ﻿using Dedsi.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
-using TobaccoDMSystemManagement.Domain;
+using TobaccoDMSystemManagement.Core;
 
-namespace TobaccoDMSystemManagement
-{
-    [ApiController]
-    [Area(TobaccoDMSystemManagementDomainOptions.ApplicationName)]
-    [Route("api/TobaccoDMSystemManagement/[controller]/[action]")]
-   
-    public abstract class TobaccoDMSystemManagementController: DedsiControllerBase;
-    
-}
+namespace TobaccoDMSystemManagement;
+
+[ApiController]
+[Area(TobaccoDMSystemManagementCoreOptions.ApplicationName)]
+[Route("api/TobaccoDMSystemManagement/[controller]/[action]")]
+public abstract class TobaccoDMSystemManagementController: DedsiControllerBase;
