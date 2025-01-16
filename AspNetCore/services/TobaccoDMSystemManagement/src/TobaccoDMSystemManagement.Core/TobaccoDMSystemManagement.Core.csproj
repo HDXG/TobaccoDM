@@ -6,6 +6,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\net9.0\TobaccoDMSystemManagement.Core.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\net9.0\TobaccoDMSystemManagement.Core.xml</DocumentationFile>
+    </PropertyGroup>
+
 
 
     <ItemGroup>
