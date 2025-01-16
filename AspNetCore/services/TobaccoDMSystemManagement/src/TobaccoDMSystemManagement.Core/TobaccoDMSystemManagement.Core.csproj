@@ -6,8 +6,16 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+
+
     <ItemGroup>
-      <PackageReference Include="Volo.Abp.Core" Version="9.0.3" />
+      <Folder Include="SystemLogs\Dtos\" />
+    </ItemGroup>
+
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\TobaccoDMSystemManagement.Infrastructure\TobaccoDMSystemManagement.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

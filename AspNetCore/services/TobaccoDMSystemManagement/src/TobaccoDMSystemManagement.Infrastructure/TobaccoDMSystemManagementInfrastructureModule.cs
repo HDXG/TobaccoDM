@@ -1,16 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
-using TobaccoDMSystemManagement.Core;
+using TobaccoDMSystemManagement.Domain;
 using Volo.Abp.Modularity;
 
 namespace TobaccoDMSystemManagement.Infrastructure;
 
-/// <summary>
-/// 
-/// </summary>
 [DependsOn(
-    typeof(TobaccoDMSystemManagementCoreModule)
+    typeof(TobaccoDMSystemManagementDomainModule)
 )]
 public class TobaccoDMSystemManagementInfrastructureModule : AbpModule
 {
@@ -21,7 +18,7 @@ public class TobaccoDMSystemManagementInfrastructureModule : AbpModule
         var connectionConfig = new ConnectionConfig
         {
             DbType = DbType.SqlServer,
-            ConnectionString = configuration.GetConnectionString(TobaccoDMSystemManagementCoreOptions.ConnectionStringName),
+            ConnectionString = configuration.GetConnectionString(TobaccoDMSystemManagementConsts.ConnectionStringName),
             IsAutoCloseConnection = true
         };
         context.Services.AddScoped<ISqlSugarClient>(s => new SqlSugarClient(connectionConfig));
