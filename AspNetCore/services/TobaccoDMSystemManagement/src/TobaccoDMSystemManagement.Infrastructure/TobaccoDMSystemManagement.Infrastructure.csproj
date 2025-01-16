@@ -10,4 +10,8 @@
     <ProjectReference Include="..\TobaccoDMSystemManagement.Core\TobaccoDMSystemManagement.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.175" />
+  </ItemGroup>
+
 </Project>
