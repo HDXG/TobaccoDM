@@ -1,11 +1,12 @@
 ﻿using Dedsi.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
-
+using TobaccoDMSystemManagement.Core;
 using Volo.Abp.Modularity;
 
 namespace TobaccoDMSystemManagement.HttpApi;
 
 [DependsOn(
+    typeof(TobaccoDMSystemManagementCoreModule),
     typeof(DedsiAspNetCoreModule)
 )]
 public class TobaccoDMSystemManagementHttpApiModule : AbpModule

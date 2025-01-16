@@ -4,27 +4,17 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <BaseOutputPath></BaseOutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <RootNamespace>TobaccoDMSystemManagement</RootNamespace>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;1591</NoWarn>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DocumentationFile>bin\Debug\net9.0\TobaccoDMSystemManagement.HttpApi.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702;1591</NoWarn>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DocumentationFile>bin\Release\net9.0\TobaccoDMSystemManagement.HttpApi.xml</DocumentationFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="bin\**" />
-    <Compile Remove="新文件夹\**" />
-    <EmbeddedResource Remove="bin\**" />
-    <EmbeddedResource Remove="新文件夹\**" />
-    <None Remove="bin\**" />
-    <None Remove="新文件夹\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dedsi.CleanArchitecture.HttpApi" Version="9.0.2.1" />

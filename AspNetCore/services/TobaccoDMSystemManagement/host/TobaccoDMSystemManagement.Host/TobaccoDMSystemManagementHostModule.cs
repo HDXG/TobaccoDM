@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using TobaccoDMSystemManagement.Core;
+using TobaccoDMSystemManagement.Domain;
 using TobaccoDMSystemManagement.HttpApi;
+using TobaccoDMSystemManagement.Infrastructure;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Auditing;
@@ -9,12 +10,11 @@ using Volo.Abp.Autofac;
 using Volo.Abp.Json;
 using Volo.Abp.Modularity;
 
-
 namespace TobaccoDMSystemManagement.Host;
-
 
 [DependsOn(
     typeof(TobaccoDMSystemManagementHttpApiModule),
+    typeof(TobaccoDMSystemManagementInfrastructureModule),
 
     typeof(AbpAspNetCoreMvcModule),
     typeof(AbpAutofacModule)
@@ -29,7 +29,7 @@ public class TobaccoDMSystemManagementHostModule : AbpModule
         // 日志
         Configure<AbpAuditingOptions>(opt =>
         {
-            opt.ApplicationName = TobaccoDMSystemManagementCoreOptions.ApplicationName;
+            opt.ApplicationName = TobaccoDMSystemManagementConsts.ApplicationName;
             opt.IsEnabledForGetRequests = true;
         });
         
@@ -62,6 +62,7 @@ public class TobaccoDMSystemManagementHostModule : AbpModule
         // Swagger
         context.Services.AddSwaggerGen(options =>
         {
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "TobaccoDMSystemManagement.Core.xml"), true);
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "TobaccoDMSystemManagement.HttpApi.xml"), true);
         });
     }

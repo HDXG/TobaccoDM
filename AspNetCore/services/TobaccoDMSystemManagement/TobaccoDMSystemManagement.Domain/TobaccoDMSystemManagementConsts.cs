@@ -1,6 +1,6 @@
-namespace TobaccoDMSystemManagement.Core;
+namespace TobaccoDMSystemManagement.Domain;
 
-public class TobaccoDMSystemManagementCoreOptions
+public class TobaccoDMSystemManagementConsts
 {
     public const string ApplicationName = "TobaccoDMSystemManagement";
     
