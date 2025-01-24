@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>TobaccoDMAuthorization</RootNamespace>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dedsi.Ddd.CQRS" Version="$(DedsiFrameworkVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TobaccoDMAuthorization.Domain\TobaccoDMAuthorization.Domain.csproj" />
+      <ProjectReference Include="..\TobaccoDMAuthorization.Infrastructure\TobaccoDMAuthorization.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>
