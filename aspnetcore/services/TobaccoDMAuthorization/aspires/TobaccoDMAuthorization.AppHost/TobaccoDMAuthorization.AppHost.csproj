@@ -19,4 +19,8 @@
       <ProjectReference Include="..\..\host\TobaccoDMAuthorization.Host\TobaccoDMAuthorization.Host.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="aspirate-output\" />
+    </ItemGroup>
+
 </Project>

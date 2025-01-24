@@ -1,0 +1,24 @@
+{
+  "projectPath": ".",
+  "outputPath": "aspirate-output",
+  "containerImageTags": [
+    "latest"
+  ],
+  "containerBuilder": "docker",
+  "outputFormat": "compose",
+  "privateRegistryEmail": "aspir8@aka.ms",
+  "includeDashboard": true,
+  "secrets": {
+    "salt": "U7unQeRkjil6X/5K",
+    "hash": "6tcfGM5HVUqe8sw1iR420Md1MiMNYpVhRGIzJTvFDZU=",
+    "secrets": {
+      "TobaccoDMAuthorizationDB": {
+        "value": "U7unQeRkjil6X/5KZn9hkCwTyRWcW3kLrc12nQQx3pBs"
+      },
+      "TobaccoDMAuthorizationHost": {
+        "ConnectionStrings__TobaccoDMAuthorizationDB": "U7unQeRkjil6X/5KZn9hkCwTyRWcW3kLrc12nQQx3pBs"
+      }
+    }
+  },
+  "processAllComponents": true
+}
