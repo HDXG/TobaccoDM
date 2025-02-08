@@ -1,6 +1,7 @@
 using Serilog;
 using Serilog.Events;
 using TobaccoDMAuthorization.EntityFrameworkCore;
+using TobaccoDMAuthorization.MinimalApi;
 
 namespace TobaccoDMAuthorization;
 
@@ -18,11 +19,14 @@ public class Program
             Log.Information("TobaccoDMAuthorization web host.");
             var builder = WebApplication.CreateBuilder(args);
             
+
+            #region aspire
             builder.AddServiceDefaults();
             builder.AddMySqlDbContext<TobaccoDMAuthorizationDbContext>(TobaccoDMAuthorizationDomainOptions.ConnectionStringName, options =>
             {
                 options.DisableRetry = true;
             });
+            #endregion
             
             builder.Host
                 .AddAppSettingsSecretsJson()
@@ -38,12 +42,20 @@ public class Program
                     .WriteTo.Async(c => c.Console())
                     .WriteTo.Async(c => c.OpenTelemetry());
                 });
+            
+            // Minimal Apis
+            builder.Services.AddEndpointsApiExplorer();
+            
             await builder.AddApplicationAsync<TobaccoDMAuthorizationHostModule>();
             
             var app = builder.Build();
 
+            // Minimal Apis
+            app.MapTobaccoDmAuthorizationMinimalApis();
+
             await app.InitializeApplicationAsync();
             await app.RunAsync();
+            
             return 0;
         }
         catch (Exception ex)

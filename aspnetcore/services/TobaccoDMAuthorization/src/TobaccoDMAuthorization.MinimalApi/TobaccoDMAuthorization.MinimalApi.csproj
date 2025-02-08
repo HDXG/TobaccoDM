@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>TobaccoDMAuthorization</RootNamespace>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
     </PropertyGroup>
 
@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TobaccoDMAuthorization.UseCase\TobaccoDMAuthorization.UseCase.csproj" />
+        <ProjectReference Include="..\TobaccoDMAuthorization.UseCase\TobaccoDMAuthorization.UseCase.csproj" />
     </ItemGroup>
 
 </Project>

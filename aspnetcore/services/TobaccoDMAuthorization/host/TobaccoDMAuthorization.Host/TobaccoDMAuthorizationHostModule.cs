@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using TobaccoDMAuthorization.MinimalApi;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Auditing;
@@ -13,8 +14,7 @@ using Volo.Abp.Modularity;
 namespace TobaccoDMAuthorization;
 
 [DependsOn(
-    // ProjectName
-    typeof(TobaccoDMAuthorizationHttpApiModule),
+    typeof(TobaccoDMAuthorizationMinimalApiModule),
 
     typeof(AbpEntityFrameworkCoreMySQLModule),
     typeof(AbpAspNetCoreMvcModule),
@@ -77,7 +77,7 @@ public class TobaccoDMAuthorizationHostModule : AbpModule
         // Swagger
         context.Services.AddSwaggerGen(options =>
         {
-            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "TobaccoDMAuthorization.HttpApi.xml"), true);
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "TobaccoDMAuthorization.MinimalApi.xml"), true);
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "TobaccoDMAuthorization.UseCase.xml"), true);
         });
 
@@ -115,6 +115,6 @@ public class TobaccoDMAuthorizationHostModule : AbpModule
 
         app.UseAuditing();
         app.UseConfiguredEndpoints();
-
     }
+
 }
