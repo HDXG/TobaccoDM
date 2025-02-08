@@ -31,7 +31,7 @@ public interface ISqlSugarRepository<TEntity> : ITransientDependency
 
     Task<int> CountAsync(string sql, object? whereObj = null);
     
-    Task<bool> InsertAsync(List<TEntity> entities);
+    Task<bool> InsertManyAsync(List<TEntity> entities);
     
     Task<bool> InsertAsync(TEntity entity);
     
@@ -203,7 +203,7 @@ public class SqlSugarRepository<TEntity>(ISqlSugarClient dbClient) : ISqlSugarRe
         return dbClient.Ado.SqlQuerySingleAsync<int>(sql,whereObj);
     }
     
-    public async Task<bool> InsertAsync(List<TEntity> entities)
+    public async Task<bool> InsertManyAsync(List<TEntity> entities)
     {
         var resultCount = 0;
         if (entities.Count > 10000)

@@ -54,6 +54,7 @@ public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : 
         // 插入会出问题： ORM 【SqlSugar】
         // 1、systemMenu SubMenus 会有问题, 提示没有这个字段
         // 2、只保存了父级菜单, 子菜单没有保存
+        // 解决方案？ https://www.donet5.com/home/doc?masterId=1&typeId=2430
         return systemMenuRepository.InsertAsync(systemMenu);
     }
 

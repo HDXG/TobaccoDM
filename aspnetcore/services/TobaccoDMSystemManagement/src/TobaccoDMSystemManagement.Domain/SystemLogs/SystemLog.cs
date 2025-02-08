@@ -8,7 +8,7 @@ public class SystemLog : Entity<Guid>
     /// <summary>
     /// Ef Core 要求必须有一个无参数的构造函数
     /// </summary>
-    protected SystemLog()
+    public SystemLog()
     {
     }
 

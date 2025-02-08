@@ -7,7 +7,6 @@ namespace TobaccoDMSystemManagement.Infrastructure;
 
 public static class SqlSugarConfigureExternalServices
 {
-
     public static ConfigureExternalServices Get()
     {
         Action<PropertyInfo, EntityColumnInfo> EntityServiceAction = (s, p) =>
