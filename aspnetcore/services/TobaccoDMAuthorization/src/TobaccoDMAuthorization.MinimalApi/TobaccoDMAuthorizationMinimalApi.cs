@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Routing;
-using TobaccoDMAuthorization.MinimalApi.DmRoleApis;
-using TobaccoDMAuthorization.MinimalApi.DmUserApis;
+using TobaccoDMAuthorization.DmRoles;
+using TobaccoDMAuthorization.DmUsers;
 
-namespace TobaccoDMAuthorization.MinimalApi;
+namespace TobaccoDMAuthorization;
 
 public static class TobaccoDMAuthorizationMinimalApi
 {

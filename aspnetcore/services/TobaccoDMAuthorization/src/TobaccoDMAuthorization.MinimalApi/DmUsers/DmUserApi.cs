@@ -7,7 +7,7 @@ using TobaccoDMAuthorization.DmUsers;
 using TobaccoDMAuthorization.DmUsers.Commands;
 using TobaccoDMAuthorization.DmUsers.Requests;
 
-namespace TobaccoDMAuthorization.MinimalApi.DmUserApis;
+namespace TobaccoDMAuthorization.DmUsers;
 
 public static class DmUserApi
 {

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using TobaccoDMAuthorization.DmRoles.Commands;
 using TobaccoDMAuthorization.DmRoles.Requests;
 
-namespace TobaccoDMAuthorization.MinimalApi.DmRoleApis;
+namespace TobaccoDMAuthorization.DmRoles;
 
 public static class DmRoleApi
 {
