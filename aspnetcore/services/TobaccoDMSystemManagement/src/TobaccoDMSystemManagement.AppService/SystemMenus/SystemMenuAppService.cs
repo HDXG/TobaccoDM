@@ -1,4 +1,5 @@
 ﻿using TobaccoDMSystemManagement.AppService.SystemMenus.Dtos;
+using TobaccoDMSystemManagement.Domain.SystemMenus;
 using TobaccoDMSystemManagement.Infrastructure.Repositories.SystemMenus;
 
 namespace TobaccoDMSystemManagement.AppService.SystemMenus;
@@ -11,6 +12,13 @@ public interface ISystemMenuAppService : ITobaccoDMSystemManagementAppService
     /// <param name="id"></param>
     /// <returns></returns>
     Task<SystemMenuDto> GetSystemMenuAsync(Guid id);
+    
+    /// <summary>
+    /// 创建菜单
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input);
 }
 
 public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : TobaccoDMSystemManagementAppService, ISystemMenuAppService
@@ -24,8 +32,7 @@ public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : 
         {
             Id = entity.Id,
             MenuName = entity.MenuName,
-            ParentMenuID = entity.ParentMenuID,
-            MenuType = entity.MenuType,
+            ParentId = entity.ParentId,
             MenuPath = entity.MenuPath,
             Icon = entity.Icon,
             PermissionKey = entity.PermissionKey,
@@ -33,10 +40,57 @@ public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : 
             RouteName = entity.RouteName,
             ExternalLink = entity.ExternalLink,
             Remark = entity.Remark,
-            Order = entity.Order,
+            OrderIndex = entity.OrderIndex,
             IsStatus = entity.IsStatus,
-            IsVisible = entity.IsVisible
         };
     }
+
+    /// <inheritdoc />
+    public Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input)
+    {
+        // // 插入一组
+        var systemMenu = CreateSystemMenu(input, null);
+
+        // 插入会出问题： ORM 【SqlSugar】
+        // 1、systemMenu SubMenus 会有问题, 提示没有这个字段
+        // 2、只保存了父级菜单, 子菜单没有保存
+        return systemMenuRepository.InsertAsync(systemMenu);
+    }
+
+    /// <summary>
+    /// 递归创建菜单
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="parent"></param>
+    private SystemMenu CreateSystemMenu(CreateSystemMenuInputDto input, SystemMenu? parent)
+    {
+        var systemMenu = new SystemMenu(
+            GuidGenerator.Create(),
+            input.MenuName,
+            input.MenuPath,
+            input.Icon,
+            input.PermissionKey,
+            input.RouteName,
+            input.ComponentPath,
+            input.OrderIndex);
+        
+        if (parent != null)
+        {
+            systemMenu.ChangeParentMenuId(parent.Id);
+        }
+
+        if (input.Childrens.Length > 0)
+        {
+            foreach (var child in input.Childrens)
+            {
+               var subSystemMenu = CreateSystemMenu(child, systemMenu);
+               systemMenu.AddSubMenu(subSystemMenu);
+            }
+        }
+
+        return systemMenu;
+    }
+    
+    
 }
 

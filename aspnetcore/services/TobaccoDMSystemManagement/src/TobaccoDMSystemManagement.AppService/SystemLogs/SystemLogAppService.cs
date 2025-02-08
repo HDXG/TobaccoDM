@@ -19,7 +19,7 @@ public class SystemLogAppService(ISystemLogRepository systemLogRepository) : Tob
     /// <inheritdoc />
     public Task<bool> CreateAsync(CreateSystemLogInputDto input)
     {
-        var systemLog = new SystemLog(GuidGenerator.Create(), input.ApplicationName);
+        var systemLog = new SystemLog(GuidGenerator.Create(), input.ApplicationName, input.ApplicationId, input.LogContent);
         
         return systemLogRepository.InsertAsync(systemLog);
     }

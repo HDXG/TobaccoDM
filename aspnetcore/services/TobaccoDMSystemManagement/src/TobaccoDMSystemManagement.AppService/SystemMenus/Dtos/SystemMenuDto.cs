@@ -2,7 +2,7 @@
 {
 
     /// <summary>
-    /// 添加菜单信息
+    /// 菜单信息
     /// </summary>
     public class SystemMenuDto : EntityDto<Guid>
     {
@@ -14,12 +14,7 @@
         /// <summary>
         /// 父级ID
         /// </summary>
-        public string ParentMenuID { get; set; }
-
-        /// <summary>
-        /// 菜单类型  0目录/1菜单/2按钮
-        /// </summary>
-        public int MenuType { get; set; }
+        public Guid? ParentId { get; set; }
 
         /// <summary>
         ///  菜单路径
@@ -54,22 +49,19 @@
         /// <summary>
         /// 备注描述或者说明
         /// </summary>
-        public string Remark { get; set; }
+        public string? Remark { get; set; }
 
         /// <summary>
         ///  排序
         /// </summary>
-        public int Order { get; set; }
+        public int OrderIndex { get; set; }
 
 
         /// <summary>
         ///  菜单/按钮状态 启用/禁用
         /// </summary>
         public bool IsStatus { get; set; }
-
-        /// <summary>
-        ///   是否可见
-        /// </summary>
-        public bool IsVisible { get; set; }
+        
+        public SystemMenuDto[] SubMenus { get; set; }
     }
 }
