@@ -4,14 +4,20 @@ using TobaccoDMSystemManagement.AppService.SystemLogs.Dtos;
 
 namespace TobaccoDMSystemManagement.SystemLogs;
 
+/// <summary>
+/// ç³»ç»Ÿæ—¥å¿—
+/// </summary>
+/// <param name="systemLogAppService"></param>
 public class SystemLogController(ISystemLogAppService systemLogAppService) : TobaccoDMSystemManagementController
 {
     /// <summary>
-    /// ²âÊÔÌí¼ÓÓ¦ÓÃ³ÌÐòÄÚÈÝ
+    /// åˆ›å»ºï¼šç³»ç»Ÿæ—¥å¿—
     /// </summary>
-    /// <param name="dto"></param>
+    /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<bool> ChangeSystemLog(SystemLogDto dto)=>systemLogAppService.ChangeSystemLog(dto);
-
+    public Task<bool> CreateAsync(CreateSystemLogInputDto input)
+    {
+        return systemLogAppService.CreateAsync(input);
+    }
 }

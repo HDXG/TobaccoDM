@@ -1,24 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TobaccoDMSystemManagement.AppService.SystemMenus;
 using TobaccoDMSystemManagement.AppService.SystemMenus.Dtos;
-namespace TobaccoDMSystemManagement.SystemMenus
+
+namespace TobaccoDMSystemManagement.SystemMenus;
+
+/// <summary>
+/// 系统添加菜单
+/// </summary>
+public class SystemMenuController(ISystemMenuAppService systemMenuAppService):TobaccoDMSystemManagementController
 {
+
     /// <summary>
-    /// 系统添加菜单
+    /// 获取单个菜单信息
     /// </summary>
-    public class SystemMenuController(ISystemMenuAppService systemMenuAppService):TobaccoDMSystemManagementController
-    {
-        /// <summary>
-        /// 保存菜单
-        /// </summary>
-        /// <param name="menuDto"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public Task<bool> ChangeSystemMenu(SystemMenuDto menuDto) => systemMenuAppService.ChangeSystemMenu(menuDto);
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("{id}")]
+    public Task<SystemMenuDto> GetSystemMenuAsync(Guid id) => systemMenuAppService.GetSystemMenuAsync(id);
 
-        
-        [HttpGet]
-        public Task<SystemMenuDto> GetSystemMenu(Guid Id) => systemMenuAppService.GetSystemMenu(Id);
-
-    }
 }

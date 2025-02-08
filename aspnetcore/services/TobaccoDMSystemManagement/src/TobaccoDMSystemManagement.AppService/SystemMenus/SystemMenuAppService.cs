@@ -1,35 +1,42 @@
 ﻿using TobaccoDMSystemManagement.AppService.SystemMenus.Dtos;
-using TobaccoDMSystemManagement.Domain.SystemMenus;
 using TobaccoDMSystemManagement.Infrastructure.Repositories.SystemMenus;
-using TobaccoDMSystemManagement.Infrastructure.Utils;
 
-namespace TobaccoDMSystemManagement.AppService.SystemMenus
+namespace TobaccoDMSystemManagement.AppService.SystemMenus;
+
+public interface ISystemMenuAppService : ITobaccoDMSystemManagementAppService
 {
-    public interface ISystemMenuAppService : ITobaccoDMSystemManagementAppService
-    {
-        Task<bool> ChangeSystemMenu(SystemMenuDto request);
+    /// <summary>
+    /// 单个菜单信息
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<SystemMenuDto> GetSystemMenuAsync(Guid id);
+}
 
-        Task<SystemMenuDto> GetSystemMenu(Guid id);
-    }
-
-    public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : TobaccoDMSystemManagementAppService, ISystemMenuAppService
+public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : TobaccoDMSystemManagementAppService, ISystemMenuAppService
+{
+    /// <inheritdoc />
+    public async Task<SystemMenuDto> GetSystemMenuAsync(Guid id)
     {
-        public Task<bool> ChangeSystemMenu(SystemMenuDto request)
+        var entity = await systemMenuRepository.GetAsync(x => x.Id == id);
+
+        return new SystemMenuDto()
         {
-            SystemMenu systemMenu = MapsterConfig.MapsterTo<SystemMenuDto, SystemMenu>(request);
-            if (request.Id == Guid.Empty)
-            {
-                systemMenu.CreateIdTime(GuidGenerator.Create());
-                systemMenu.SavaUpdateTime();
-                return systemMenuRepository.InsertAsync(systemMenu);
-            }
-            else
-            {
-                systemMenu.SavaUpdateTime();
-                return systemMenuRepository.UpdateAsync(systemMenu);
-            }
-        }
-
-        public async Task<SystemMenuDto> GetSystemMenu(Guid id) => MapsterConfig.MapsterTo<SystemMenu, SystemMenuDto>(await systemMenuRepository.GetAsync(x => x.Id == id));
+            Id = entity.Id,
+            MenuName = entity.MenuName,
+            ParentMenuID = entity.ParentMenuID,
+            MenuType = entity.MenuType,
+            MenuPath = entity.MenuPath,
+            Icon = entity.Icon,
+            PermissionKey = entity.PermissionKey,
+            ComponentPath = entity.ComponentPath,
+            RouteName = entity.RouteName,
+            ExternalLink = entity.ExternalLink,
+            Remark = entity.Remark,
+            Order = entity.Order,
+            IsStatus = entity.IsStatus,
+            IsVisible = entity.IsVisible
+        };
     }
 }
+

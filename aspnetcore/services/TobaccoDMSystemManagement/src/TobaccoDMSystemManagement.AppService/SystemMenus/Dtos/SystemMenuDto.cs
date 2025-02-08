@@ -4,13 +4,12 @@
     /// <summary>
     /// 添加菜单信息
     /// </summary>
-    public class SystemMenuDto:EntityDto<Guid>
+    public class SystemMenuDto : EntityDto<Guid>
     {
         /// <summary>
         /// 菜单/按钮 名称
         /// </summary>
         public string MenuName { get; set; }
-
 
         /// <summary>
         /// 父级ID
@@ -48,20 +47,23 @@
         public string RouteName { get; set; }
 
         /// <summary>
-        ///   是否外链
+        ///  是否外链
         /// </summary>
         public bool ExternalLink { get; set; }
 
         /// <summary>
-        ///   备注描述或者说明
+        /// 备注描述或者说明
         /// </summary>
         public string Remark { get; set; }
 
+        /// <summary>
+        ///  排序
+        /// </summary>
         public int Order { get; set; }
 
 
         /// <summary>
-        ///  菜单/按钮状态  启用/禁用
+        ///  菜单/按钮状态 启用/禁用
         /// </summary>
         public bool IsStatus { get; set; }
 
@@ -69,8 +71,5 @@
         ///   是否可见
         /// </summary>
         public bool IsVisible { get; set; }
-
-
-
     }
 }

@@ -4,7 +4,7 @@
     {
         public SystemMenu() { }
 
-        public SystemMenu(string menuName, string parentMenuID, string menuPath, string icon, string permissionKey, bool? externalLink, string remark, int menuType, string routeName, string componentPath, int order)
+        public SystemMenu(string menuName, string parentMenuID, string menuPath, string icon, string permissionKey, bool externalLink, string remark, int menuType, string routeName, string componentPath, int order)
         {
             MenuName = menuName;
             ParentMenuID = parentMenuID;
@@ -63,7 +63,7 @@
         /// <summary>
         ///   是否外链
         /// </summary>
-        public bool? ExternalLink { get; private set; }
+        public bool ExternalLink { get; private set; }
 
         /// <summary>
         ///   备注描述或者说明

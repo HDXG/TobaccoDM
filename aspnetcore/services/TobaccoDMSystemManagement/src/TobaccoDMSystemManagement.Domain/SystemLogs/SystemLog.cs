@@ -17,15 +17,4 @@ public class SystemLog : Entity<Guid>
     public string ApplicationName { get; private set; }
 
     public DateTime CreateTime { get; private set; }
-
-    public void ChangeApplicationName(string newApplicationName)
-    {
-        ApplicationName = newApplicationName;
-    }
-
-    public void CreateUlidTime(Guid Id)
-    {
-        this.CreateTime= DateTime.Now;
-        this.Id = Id;
-    }
 }
