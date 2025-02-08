@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TobaccoDMAuthorization.AppH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TobaccoDMAuthorization.MinimalApi", "src\TobaccoDMAuthorization.MinimalApi\TobaccoDMAuthorization.MinimalApi.csproj", "{897F6220-538A-4C88-85DF-6BE857C3268A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TobaccoDMAuthorizationAdmin.Host", "host\TobaccoDMAuthorizationAdmin.Host\TobaccoDMAuthorizationAdmin.Host.csproj", "{7B66EC7F-2BE2-4CEF-B6AE-DDE430DDE007}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{897F6220-538A-4C88-85DF-6BE857C3268A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{897F6220-538A-4C88-85DF-6BE857C3268A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{897F6220-538A-4C88-85DF-6BE857C3268A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B66EC7F-2BE2-4CEF-B6AE-DDE430DDE007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B66EC7F-2BE2-4CEF-B6AE-DDE430DDE007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B66EC7F-2BE2-4CEF-B6AE-DDE430DDE007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B66EC7F-2BE2-4CEF-B6AE-DDE430DDE007}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,5 +75,6 @@ Global
 		{CE98A2AA-7235-49FE-ABDD-88D793DA0628} = {5D7E1F40-8C7D-4E04-B389-253D580BBD3D}
 		{4A83F774-939B-4D56-9103-227CB41217CA} = {5D7E1F40-8C7D-4E04-B389-253D580BBD3D}
 		{897F6220-538A-4C88-85DF-6BE857C3268A} = {AF96C03E-E3CE-4E4B-8A3F-7C117BA602AA}
+		{7B66EC7F-2BE2-4CEF-B6AE-DDE430DDE007} = {BC04B74F-7CAC-4ACC-BFD9-6DED68564777}
 	EndGlobalSection
 EndGlobal

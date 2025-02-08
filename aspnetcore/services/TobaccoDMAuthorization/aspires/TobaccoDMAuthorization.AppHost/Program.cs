@@ -5,4 +5,7 @@ var tobaccoDmAuthorizationDbConnectionString = builder.AddConnectionString("Toba
 builder.AddProject<Projects.TobaccoDMAuthorization_Host>("TobaccoDMAuthorizationHost")
     .WithReference(tobaccoDmAuthorizationDbConnectionString);
 
+builder.AddProject<Projects.TobaccoDMAuthorizationAdmin_Host>("TobaccoDMAuthorizationAdminHost")
+    .WithReference(tobaccoDmAuthorizationDbConnectionString);
+
 builder.Build().Run();

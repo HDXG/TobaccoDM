@@ -1,8 +1,9 @@
 using Serilog;
 using Serilog.Events;
+using TobaccoDMAuthorization;
 using TobaccoDMAuthorization.EntityFrameworkCore;
 
-namespace TobaccoDMAuthorization;
+namespace TobaccoDMAuthorizationAdmin;
 
 public class Program
 {
@@ -45,12 +46,12 @@ public class Program
             // Minimal Apis
             builder.Services.AddEndpointsApiExplorer();
             
-            await builder.AddApplicationAsync<TobaccoDMAuthorizationHostModule>();
+            await builder.AddApplicationAsync<TobaccoDMAuthorizationAdminHostModule>();
             
             var app = builder.Build();
 
             // Minimal Apis
-            app.MapTobaccoDmAuthorizationMinimalApis();
+            app.MapTobaccoDmAuthorizationAdminMinimalApis();
 
             await app.InitializeApplicationAsync();
             await app.RunAsync();

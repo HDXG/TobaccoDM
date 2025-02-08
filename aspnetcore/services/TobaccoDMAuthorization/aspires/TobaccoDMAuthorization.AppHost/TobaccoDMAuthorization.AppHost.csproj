@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\host\TobaccoDMAuthorization.Host\TobaccoDMAuthorization.Host.csproj" />
+      <ProjectReference Include="..\..\host\TobaccoDMAuthorizationAdmin.Host\TobaccoDMAuthorizationAdmin.Host.csproj" />
     </ItemGroup>
 
     <ItemGroup>
