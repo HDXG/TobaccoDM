@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SqlSugarCore" Version="5.1.4.175" />
+    <ProjectReference Include="..\TobaccoDMSystemManagement.Domain\TobaccoDMSystemManagement.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TobaccoDMSystemManagement.Domain\TobaccoDMSystemManagement.Domain.csproj" />
+    <Compile Remove="SqlSugarExtensions.cs" />
   </ItemGroup>
 
 </Project>

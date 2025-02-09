@@ -17,5 +17,16 @@ public class SystemMenuController(ISystemMenuAppService systemMenuAppService):To
     /// <returns></returns>
     [HttpGet("{id}")]
     public Task<SystemMenuDto> GetSystemMenuAsync(Guid id) => systemMenuAppService.GetSystemMenuAsync(id);
+    
+    /// <summary>
+    /// 添加菜单
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input) => systemMenuAppService.CreateSystemMenuAsync(input);
+    
+    [HttpDelete("{id}")]
+    public Task<bool> DeleteSystemMenuAsync(Guid id) => systemMenuAppService.DeleteSystemMenuAsync(id);
 
 }

@@ -19,6 +19,9 @@ public interface ISystemMenuAppService : ITobaccoDMSystemManagementAppService
     /// <param name="input"></param>
     /// <returns></returns>
     Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input);
+    
+    
+    Task<bool> DeleteSystemMenuAsync(Guid id);
 }
 
 public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : TobaccoDMSystemManagementAppService, ISystemMenuAppService
@@ -51,10 +54,12 @@ public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : 
         // // 插入一组
         var systemMenu = CreateSystemMenu(input, null);
 
-        // 插入会出问题： ORM 【SqlSugar】
-        // 1、systemMenu SubMenus 会有问题, 提示没有这个字段
-        // 2、只保存了父级菜单, 子菜单没有保存
-        return systemMenuRepository.InsertAsync(systemMenu);
+       return systemMenuRepository.InsertIncludeAsync(systemMenu,x=>x.SubMenus);
+    }
+
+    public Task<bool> DeleteSystemMenuAsync(Guid id)
+    {
+       return systemMenuRepository.DeleteIncludeAsync(x => x.Id == id,x=>x.SubMenus);
     }
 
     /// <summary>

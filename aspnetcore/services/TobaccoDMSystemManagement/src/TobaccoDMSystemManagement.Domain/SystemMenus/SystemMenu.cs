@@ -1,4 +1,5 @@
-﻿using Volo.Abp;
+﻿using SqlSugar;
+using Check = Volo.Abp.Check;
 
 namespace TobaccoDMSystemManagement.Domain.SystemMenus;
 
@@ -154,7 +155,9 @@ public class SystemMenu : Entity<Guid>
         IsStatus = false;
     }
 
-    public ICollection<SystemMenu> SubMenus { get; private set; } = new List<SystemMenu>();
+
+    [Navigate(NavigateType.OneToMany, nameof(ParentId))]
+    public List<SystemMenu> SubMenus { get; private set; } = new List<SystemMenu>();
 
     public void AddSubMenu(SystemMenu systemMenu)
     {

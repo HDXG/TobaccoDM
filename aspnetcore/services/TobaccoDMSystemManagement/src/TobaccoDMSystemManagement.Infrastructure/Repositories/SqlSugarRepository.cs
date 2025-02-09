@@ -17,12 +17,7 @@ public interface ISqlSugarRepository<TEntity> : ITransientDependency
     Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> expression);
     Task<List<TEntity>> GetListAsync(string sql, object? whereObj = null);
     Task<List<TResult>> GetListAsync<TResult>(string sql, object? whereObj = null);
-    Task<List<TEntity>> GetPageListAsync(
-        int pageNumber,
-        int pageSize,
-        RefAsync<int> totalNumber,
-        Expression<Func<TEntity, bool>> whereExpression,
-        Expression<Func<TEntity, object>> orderExpression,
+    Task<List<TEntity>> GetPageListAsync(int pageNumber,int pageSize,RefAsync<int> totalNumber,Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderExpression,
         OrderByType orderByType = OrderByType.Asc);
 
     Task<int> CountAsync();
@@ -31,7 +26,10 @@ public interface ISqlSugarRepository<TEntity> : ITransientDependency
 
     Task<int> CountAsync(string sql, object? whereObj = null);
     
-    Task<bool> InsertAsync(List<TEntity> entities);
+    Task<bool> InsertMaryAsync(List<TEntity> entities);
+
+  
+    Task<bool> InsertIncludeAsync(TEntity entity, Expression<Func<TEntity,List<TEntity>>> lambar);
     
     Task<bool> InsertAsync(TEntity entity);
     
@@ -91,6 +89,8 @@ public interface ISqlSugarRepository<TEntity> : ITransientDependency
     Task<bool> DeleteAsync(TEntity entity);
     
     Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression);
+    
+    Task<bool> DeleteIncludeAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, List<TEntity>>> columns);
 
     /// <summary>
     /// 主键删除
@@ -117,70 +117,32 @@ public class SqlSugarRepository<TEntity>(ISqlSugarClient dbClient) : ISqlSugarRe
 {
     protected ISugarQueryable<TEntity> GetQueryable() => dbClient.Queryable<TEntity>();
     protected ISugarQueryable<TEntity> GetQueryable(Expression<Func<TEntity, bool>> expression) => dbClient.Queryable<TEntity>().Where(expression);
+
+    public Task<ISugarQueryable<TEntity>> GetQueryableAsync() => Task.FromResult(GetQueryable());
     
-    public Task<ISugarQueryable<TEntity>> GetQueryableAsync()
-    {
-        return Task.FromResult(GetQueryable());
-    }
+    public Task<ISugarQueryable<TEntity>> GetQueryableAsync(Expression<Func<TEntity, bool>> expression)=>Task.FromResult(GetQueryable(expression));
+
+    public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)=>GetQueryable().AnyAsync(expression);
+
+    public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression)=>GetQueryable().FirstAsync(expression);
+
+    public Task<TEntity> GetAsync(string sql, object? whereObj = null)=>dbClient.Ado.SqlQuerySingleAsync<TEntity>(sql,whereObj);
     
-    public Task<ISugarQueryable<TEntity>> GetQueryableAsync(Expression<Func<TEntity, bool>> expression)
-    {
-        return Task.FromResult(GetQueryable(expression));
-    }
+    public Task<TResult> GetAsync<TResult>(string sql, object? whereObj = null)=>dbClient.Ado.SqlQuerySingleAsync<TResult>(sql,whereObj);
 
-    public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)
-    {
-        return GetQueryable().AnyAsync(expression);
-    }
+    public Task<TEntity> GetAsync<TPrimaryKey>(TPrimaryKey id)=>GetQueryable().In(id).FirstAsync();
 
-    public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression)
-    {
-        return GetQueryable().FirstAsync(expression);
-    }
-
-    public Task<TEntity> GetAsync(string sql, object? whereObj = null)
-    {
-        return dbClient.Ado.SqlQuerySingleAsync<TEntity>(sql,whereObj);
-    }
+    public Task<List<TEntity>> GetListAsync()=> GetQueryable().ToListAsync();
     
-    public Task<TResult> GetAsync<TResult>(string sql, object? whereObj = null)
-    {
-        return dbClient.Ado.SqlQuerySingleAsync<TResult>(sql,whereObj);
-    }
-
-    public Task<TEntity> GetAsync<TPrimaryKey>(TPrimaryKey id)
-    {
-        return GetQueryable().In(id).FirstAsync();
-    }
-
-    public Task<List<TEntity>> GetListAsync()
-    {
-        return GetQueryable().ToListAsync();
-    }
+    public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> expression)=>GetQueryable().Where(expression).ToListAsync();
     
-    public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> expression)
-    {
-        return GetQueryable().Where(expression).ToListAsync();
-    }
-    
-    public Task<List<TEntity>> GetListAsync(string sql, object? whereObj = null)
-    {
-        return dbClient.Ado.SqlQueryAsync<TEntity>(sql,whereObj);
-    }
+    public Task<List<TEntity>> GetListAsync(string sql, object? whereObj = null)=>dbClient.Ado.SqlQueryAsync<TEntity>(sql,whereObj);
 
-    public Task<List<TResult>> GetListAsync<TResult>(string sql, object? whereObj = null)
-    {
-        return dbClient.Ado.SqlQueryAsync<TResult>(sql,whereObj);
-    }
+    public Task<List<TResult>> GetListAsync<TResult>(string sql, object? whereObj = null)=>dbClient.Ado.SqlQueryAsync<TResult>(sql,whereObj);
 
     /// <inheritdoc />
-    public Task<List<TEntity>> GetPageListAsync(
-        int pageNumber, 
-        int pageSize, 
-        RefAsync<int> totalNumber,
-        Expression<Func<TEntity, bool>> whereExpression,
-        Expression<Func<TEntity, object>> orderExpression, 
-        OrderByType orderByType = OrderByType.Asc)
+    public Task<List<TEntity>> GetPageListAsync( int pageNumber, int pageSize, RefAsync<int> totalNumber,Expression<Func<TEntity, bool>> whereExpression,
+        Expression<Func<TEntity, object>> orderExpression, OrderByType orderByType = OrderByType.Asc)
     {
         return GetQueryable()
                 .Where(whereExpression)
@@ -188,22 +150,13 @@ public class SqlSugarRepository<TEntity>(ISqlSugarClient dbClient) : ISqlSugarRe
                 .ToPageListAsync(pageNumber,pageSize,totalNumber);
     }
 
-    public Task<int> CountAsync()
-    {
-        return GetQueryable().CountAsync();
-    }
+    public Task<int> CountAsync()=>GetQueryable().CountAsync();
 
-    public Task<int> CountAsync(Expression<Func<TEntity, bool>> expression)
-    {
-        return GetQueryable().CountAsync(expression);
-    }
+    public Task<int> CountAsync(Expression<Func<TEntity, bool>> expression)=>GetQueryable().CountAsync(expression);
     
-    public Task<int> CountAsync(string sql, object? whereObj = null)
-    {
-        return dbClient.Ado.SqlQuerySingleAsync<int>(sql,whereObj);
-    }
+    public Task<int> CountAsync(string sql, object? whereObj = null)=>dbClient.Ado.SqlQuerySingleAsync<int>(sql,whereObj);
     
-    public async Task<bool> InsertAsync(List<TEntity> entities)
+    public async Task<bool> InsertMaryAsync(List<TEntity> entities)
     {
         var resultCount = 0;
         if (entities.Count > 10000)
@@ -216,6 +169,13 @@ public class SqlSugarRepository<TEntity>(ISqlSugarClient dbClient) : ISqlSugarRe
         }
 
         return 0 == entities.Count;
+    }
+    
+    public  Task<bool> InsertIncludeAsync(TEntity entity,Expression<Func<TEntity,List<TEntity>>> lambar)
+    {
+        return  dbClient.InsertNav(entity)
+            .Include(lambar)
+            .ExecuteCommandAsync();
     }
     
     public async Task<bool> InsertAsync(TEntity entity)
@@ -277,6 +237,12 @@ public class SqlSugarRepository<TEntity>(ISqlSugarClient dbClient) : ISqlSugarRe
         return resultCount > 0;
     }
 
+    public Task<bool> DeleteIncludeAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, List<TEntity>>> columns)
+    {
+        return  dbClient.DeleteNav(expression)
+           .Include(columns)
+           .ExecuteCommandAsync();
+    }
     public async Task<bool> DeleteAsync<TPrimaryKey>(TPrimaryKey id)
     {
         var resultCount = await dbClient.Deleteable<TEntity>().In(id).ExecuteCommandAsync();
