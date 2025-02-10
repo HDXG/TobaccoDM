@@ -13,7 +13,7 @@ public static class DmRoleApi
     public static void MapDmRoleApis(this IEndpointRouteBuilder builder)
     {
         var api = builder
-            .MapGroup(TobaccoDMAuthorizationMinimalApi.ApiPrefix + "/DmRole")
+            .MapGroup(TobaccoDMAuthorizationMinimalApi.TobaccoDmAuthorizationAdminApiPrefix + "/DmRole")
             .WithTags("DmRole");
 
         api.MapPost("/Create", CreateAsync);

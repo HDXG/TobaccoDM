@@ -25,12 +25,11 @@ public interface ISqlSugarRepository<TEntity> : ITransientDependency
     Task<int> CountAsync(Expression<Func<TEntity, bool>> expression);
 
     Task<int> CountAsync(string sql, object? whereObj = null);
-    
-    Task<bool> InsertMaryAsync(List<TEntity> entities);
 
-  
     Task<bool> InsertIncludeAsync(TEntity entity, Expression<Func<TEntity,List<TEntity>>> lambar);
-    
+
+    Task<bool> InsertManyAsync(List<TEntity> entities);
+
     Task<bool> InsertAsync(TEntity entity);
     
     /// <summary>
@@ -156,7 +155,7 @@ public class SqlSugarRepository<TEntity>(ISqlSugarClient dbClient) : ISqlSugarRe
     
     public Task<int> CountAsync(string sql, object? whereObj = null)=>dbClient.Ado.SqlQuerySingleAsync<int>(sql,whereObj);
     
-    public async Task<bool> InsertMaryAsync(List<TEntity> entities)
+    public async Task<bool> InsertManyAsync(List<TEntity> entities)
     {
         var resultCount = 0;
         if (entities.Count > 10000)

@@ -14,7 +14,7 @@ public static class DmUserApi
     public static void MapDmUserApis(this IEndpointRouteBuilder builder)
     {
         var api = builder
-            .MapGroup(TobaccoDMAuthorizationMinimalApi.ApiPrefix + "/DmUser")
+            .MapGroup(TobaccoDMAuthorizationMinimalApi.TobaccoDmAuthorizationAdminApiPrefix + "/DmUser")
             .WithTags("DmUser");
         
         api
