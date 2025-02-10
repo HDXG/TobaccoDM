@@ -16,7 +16,9 @@ public class CreateSystemMenuInputDto
     public string Icon { get; set; }
     
     public string PermissionKey { get; set; }
-    
+
+    public Guid? ParentId { get; set; }
+
     public string RouteName { get; set; }
     
     public string ComponentPath { get; set; }

@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+    <ProjectReference Include="..\TobaccoDMSystemManagement.Domain\TobaccoDMSystemManagement.Domain.csproj" />
     <PackageReference Include="SqlSugarCore" Version="5.1.4.175" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TobaccoDMSystemManagement.Domain\TobaccoDMSystemManagement.Domain.csproj" />
+    <Compile Remove="SqlSugarExtensions.cs" />
   </ItemGroup>
 
 </Project>
