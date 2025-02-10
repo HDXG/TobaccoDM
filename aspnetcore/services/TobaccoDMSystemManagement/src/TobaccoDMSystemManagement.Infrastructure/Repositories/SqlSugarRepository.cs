@@ -7,16 +7,30 @@ namespace TobaccoDMSystemManagement.Infrastructure.Repositories;
 public interface ISqlSugarRepository<TEntity> : ITransientDependency
 {
     Task<ISugarQueryable<TEntity>> GetQueryableAsync();
+
     Task<ISugarQueryable<TEntity>> GetQueryableAsync(Expression<Func<TEntity, bool>> expression);
+
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression);
+
     Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression);
+
+
     Task<TEntity> GetAsync(string sql, object? whereObj = null);
+
     Task<TResult> GetAsync<TResult>(string sql, object? whereObj = null);
+
+    Task<List<TEntity>> GetIncludeAsync(Expression<Func<TEntity, List<TEntity>>> expressionInClude);
+
     Task<TEntity> GetAsync<TPrimaryKey>(TPrimaryKey id);
+
     Task<List<TEntity>> GetListAsync();
+
     Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> expression);
+
     Task<List<TEntity>> GetListAsync(string sql, object? whereObj = null);
+
     Task<List<TResult>> GetListAsync<TResult>(string sql, object? whereObj = null);
+
     Task<List<TEntity>> GetPageListAsync(int pageNumber,int pageSize,RefAsync<int> totalNumber,Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderExpression,
         OrderByType orderByType = OrderByType.Asc);
 
@@ -121,27 +135,64 @@ public class SqlSugarRepository<TEntity>(ISqlSugarClient dbClient) : ISqlSugarRe
     
     public Task<ISugarQueryable<TEntity>> GetQueryableAsync(Expression<Func<TEntity, bool>> expression)=>Task.FromResult(GetQueryable(expression));
 
-    public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)=>GetQueryable().AnyAsync(expression);
+    public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        return GetQueryable().AnyAsync(expression);
+    }
 
-    public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression)=>GetQueryable().FirstAsync(expression);
+    public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        return GetQueryable().FirstAsync(expression);
+    }
 
-    public Task<TEntity> GetAsync(string sql, object? whereObj = null)=>dbClient.Ado.SqlQuerySingleAsync<TEntity>(sql,whereObj);
+    public Task<TEntity> GetAsync(string sql, object? whereObj = null)
+    {
+        return dbClient.Ado.SqlQuerySingleAsync<TEntity>(sql, whereObj);
+    }
     
-    public Task<TResult> GetAsync<TResult>(string sql, object? whereObj = null)=>dbClient.Ado.SqlQuerySingleAsync<TResult>(sql,whereObj);
+    public Task<TResult> GetAsync<TResult>(string sql, object? whereObj = null)
+    {
+        return dbClient.Ado.SqlQuerySingleAsync<TResult>(sql, whereObj);
+    }
 
-    public Task<TEntity> GetAsync<TPrimaryKey>(TPrimaryKey id)=>GetQueryable().In(id).FirstAsync();
+    public Task<List<TEntity>> GetIncludeAsync( Expression<Func<TEntity, List<TEntity>>> expressionInClude)
+    {
+        return GetQueryable().Includes(expressionInClude).ToListAsync();
+    }
 
-    public Task<List<TEntity>> GetListAsync()=> GetQueryable().ToListAsync();
+    public Task<TEntity> GetAsync<TPrimaryKey>(TPrimaryKey id)
+    {
+        return GetQueryable().In(id).FirstAsync();
+    }
+
+    public Task<List<TEntity>> GetListAsync()
+    {
+        return GetQueryable().ToListAsync();
+    }
     
-    public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> expression)=>GetQueryable().Where(expression).ToListAsync();
-    
-    public Task<List<TEntity>> GetListAsync(string sql, object? whereObj = null)=>dbClient.Ado.SqlQueryAsync<TEntity>(sql,whereObj);
+    public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        return GetQueryable().Where(expression).ToListAsync();
+    }
 
-    public Task<List<TResult>> GetListAsync<TResult>(string sql, object? whereObj = null)=>dbClient.Ado.SqlQueryAsync<TResult>(sql,whereObj);
+    public Task<List<TEntity>> GetListAsync(string sql, object? whereObj = null)
+    {
+        return dbClient.Ado.SqlQueryAsync<TEntity>(sql, whereObj);
+    }
+
+    public Task<List<TResult>> GetListAsync<TResult>(string sql, object? whereObj = null)
+    {
+        return dbClient.Ado.SqlQueryAsync<TResult>(sql, whereObj);
+    }
 
     /// <inheritdoc />
-    public Task<List<TEntity>> GetPageListAsync( int pageNumber, int pageSize, RefAsync<int> totalNumber,Expression<Func<TEntity, bool>> whereExpression,
-        Expression<Func<TEntity, object>> orderExpression, OrderByType orderByType = OrderByType.Asc)
+    public Task<List<TEntity>> GetPageListAsync( 
+        int pageNumber,
+        int pageSize, 
+        RefAsync<int> totalNumber,
+        Expression<Func<TEntity, bool>> whereExpression,
+        Expression<Func<TEntity, object>> orderExpression,
+        OrderByType orderByType = OrderByType.Asc)
     {
         return GetQueryable()
                 .Where(whereExpression)
@@ -149,11 +200,20 @@ public class SqlSugarRepository<TEntity>(ISqlSugarClient dbClient) : ISqlSugarRe
                 .ToPageListAsync(pageNumber,pageSize,totalNumber);
     }
 
-    public Task<int> CountAsync()=>GetQueryable().CountAsync();
+    public Task<int> CountAsync()
+    {
+        return GetQueryable().CountAsync();
+    }
 
-    public Task<int> CountAsync(Expression<Func<TEntity, bool>> expression)=>GetQueryable().CountAsync(expression);
+    public Task<int> CountAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        return GetQueryable().CountAsync(expression);
+    }
     
-    public Task<int> CountAsync(string sql, object? whereObj = null)=>dbClient.Ado.SqlQuerySingleAsync<int>(sql,whereObj);
+    public Task<int> CountAsync(string sql, object? whereObj = null)
+    {
+        return dbClient.Ado.SqlQuerySingleAsync<int>(sql, whereObj);
+    }
     
     public async Task<bool> InsertManyAsync(List<TEntity> entities)
     {
@@ -174,6 +234,7 @@ public class SqlSugarRepository<TEntity>(ISqlSugarClient dbClient) : ISqlSugarRe
     {
         return  dbClient.InsertNav(entity)
             .Include(lambar)
+            .ThenInclude(lambar)
             .ExecuteCommandAsync();
     }
     
