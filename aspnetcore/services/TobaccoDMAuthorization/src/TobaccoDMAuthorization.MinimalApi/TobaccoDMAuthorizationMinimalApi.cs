@@ -7,8 +7,12 @@ namespace TobaccoDMAuthorization;
 public static class TobaccoDMAuthorizationMinimalApi
 {
     public const string TobaccoDmAuthorizationApiPrefix = "api/TobaccoDMAuthorization";
+    
+    public const string TobaccoDmAuthorizationPublicApiPrefix = "api-public/TobaccoDMAuthorization";
 
     public const string TobaccoDmAuthorizationAdminApiPrefix = "api/TobaccoDMAuthorizationAdmin";
+    
+    public const string TobaccoDmAuthorizationAdminPublicApiPrefix = "api-public/TobaccoDMAuthorizationAdmin";
     
     /// <summary>
     /// Map TobaccoDMAuthorization MinimalApis
