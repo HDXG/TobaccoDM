@@ -1,4 +1,6 @@
-﻿namespace TobaccoDMSystemManagement.AppService.SystemMenus.Dtos
+﻿using TobaccoDMSystemManagement.Domain.SystemMenus;
+
+namespace TobaccoDMSystemManagement.AppService.SystemMenus.Dtos
 {
 
     /// <summary>
@@ -61,7 +63,12 @@
         ///  菜单/按钮状态 启用/禁用
         /// </summary>
         public bool IsStatus { get; set; }
-        
-        public SystemMenuDto[] SubMenus { get; set; }
+
+        public List<SystemMenuDto> SubMenus { get; set; } = new List<SystemMenuDto>();
+
+
+       
+
+       
     }
 }
