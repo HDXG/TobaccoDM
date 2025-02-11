@@ -29,4 +29,7 @@ public class SystemMenuController(ISystemMenuAppService systemMenuAppService):To
     [HttpDelete("{id}")]
     public Task<bool> DeleteSystemMenuAsync(Guid id) => systemMenuAppService.DeleteSystemMenuAsync(id);
 
+    [HttpPost]
+    public Task<List<SystemMenuDto>> GetSystemMenuListAsync() => systemMenuAppService.GetSystemMenuListAsync();
+
 }
