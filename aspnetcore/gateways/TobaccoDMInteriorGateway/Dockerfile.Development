@@ -1,4 +1,6 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0
+ENV TZ="Asia/Shanghai"
+ENV ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /app
 COPY . .
 ENTRYPOINT ["dotnet", "TobaccoDMInteriorGateway.dll"]
