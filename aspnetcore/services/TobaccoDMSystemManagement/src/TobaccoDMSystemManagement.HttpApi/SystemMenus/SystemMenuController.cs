@@ -16,17 +16,31 @@ public class SystemMenuController(ISystemMenuAppService systemMenuAppService):To
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public Task<SystemMenuDto> GetSystemMenuAsync(Guid id) => systemMenuAppService.GetSystemMenuAsync(id);
-    
+    public Task<SystemMenuDto> GetSystemMenuAsync(Guid id)
+    {
+        return systemMenuAppService.GetSystemMenuAsync(id);
+    }
+
     /// <summary>
     /// 添加菜单
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input) => systemMenuAppService.CreateSystemMenuAsync(input);
-    
-    [HttpDelete("{id}")]
-    public Task<bool> DeleteSystemMenuAsync(Guid id) => systemMenuAppService.DeleteSystemMenuAsync(id);
+    public Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input)
+    {
+        return systemMenuAppService.CreateSystemMenuAsync(input);
+    }
+
+    /// <summary>
+    /// 删除菜单
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPost("{id}")]
+    public Task<bool> DeleteSystemMenuAsync(Guid id)
+    {
+        return systemMenuAppService.DeleteSystemMenuAsync(id);
+    }
 
 }
