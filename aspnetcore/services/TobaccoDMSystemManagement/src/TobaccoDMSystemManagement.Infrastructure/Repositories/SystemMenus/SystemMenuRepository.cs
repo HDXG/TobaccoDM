@@ -1,8 +1,13 @@
-﻿using SqlSugar;
-using TobaccoDMSystemManagement.Domain.SystemMenus;
+﻿using TobaccoDMSystemManagement.Domain.SystemMenus;
+using TobaccoDMSystemManagement.Infrastructure.EntityFrameworkCore;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
 
-namespace TobaccoDMSystemManagement.Infrastructure.Repositories.SystemMenus;
+public interface ISystemMenuRepository : IRepository<SystemMenu,Guid>;
 
-public interface ISystemMenuRepository:ISqlSugarRepository<SystemMenu>;
+public class SystemMenuRepository(IDbContextProvider<TobaccoDMSystemManagementDbContext> dbContextProviders) 
+    : EfCoreRepository<TobaccoDMSystemManagementDbContext, SystemMenu,Guid>(dbContextProviders), 
+        ISystemMenuRepository;
 
-public class SystemMenuRepository(ISqlSugarClient sqlSugarClient) : SqlSugarRepository<SystemMenu>(sqlSugarClient), ISystemMenuRepository;
+

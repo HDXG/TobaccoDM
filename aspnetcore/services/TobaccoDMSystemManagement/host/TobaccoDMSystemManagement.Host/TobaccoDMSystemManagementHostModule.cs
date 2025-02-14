@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using TobaccoDMSystemManagement.Domain;
 using TobaccoDMSystemManagement.HttpApi;
@@ -8,15 +9,19 @@ using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.Auditing;
 using Volo.Abp.Autofac;
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.MySQL;
 using Volo.Abp.Json;
 using Volo.Abp.Modularity;
 
 namespace TobaccoDMSystemManagement.Host;
 
 [DependsOn(
+
     typeof(TobaccoDMSystemManagementHttpApiModule),
     typeof(TobaccoDMSystemManagementInfrastructureModule),
-
+    typeof(AbpEntityFrameworkCoreModule),
+    typeof(AbpEntityFrameworkCoreMySQLModule),
     typeof(AbpAspNetCoreMvcModule),
     typeof(AbpAutofacModule)
 )]
@@ -26,6 +31,21 @@ public class TobaccoDMSystemManagementHostModule : AbpModule
     {
         var configuration = context.Services.GetConfiguration();
         var hostEnvironment = context.Services.GetAbpHostEnvironment();
+
+
+        Configure<AbpDbContextOptions>(options =>
+        {
+            options.Configure(dbConfigContext =>
+            {
+                // 本地研发环境 - 输出到控制台
+                if (hostEnvironment.EnvironmentName == "Development")
+                {
+                    dbConfigContext.DbContextOptions.LogTo(Serilog.Log.Information, new[] { DbLoggerCategory.Database.Command.Name }).EnableSensitiveDataLogging();
+                }
+                dbConfigContext.UseMySQL();
+            });
+        });
+
 
         // 日志
         Configure<AbpAuditingOptions>(opt =>

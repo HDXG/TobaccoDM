@@ -1,8 +1,10 @@
-using SqlSugar;
+
 using TobaccoDMSystemManagement.Domain.SystemLogs;
+using TobaccoDMSystemManagement.Infrastructure.EntityFrameworkCore;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
 
-namespace TobaccoDMSystemManagement.Infrastructure.Repositories.SystemLogs;
+public interface ISystemLogRepository : IRepository<SystemLog, Guid>;
 
-public interface ISystemLogRepository : ISqlSugarRepository<SystemLog>;
-
-public class SystemLogRepository(ISqlSugarClient dbClient) : SqlSugarRepository<SystemLog>(dbClient), ISystemLogRepository;
+public class SystemLogRepository(IDbContextProvider<TobaccoDMSystemManagementDbContext> dbContextProvider) : EfCoreRepository<TobaccoDMSystemManagementDbContext, SystemLog, Guid>(dbContextProvider), ISystemLogRepository;

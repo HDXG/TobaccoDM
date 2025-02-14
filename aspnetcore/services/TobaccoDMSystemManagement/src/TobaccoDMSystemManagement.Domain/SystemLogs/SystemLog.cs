@@ -1,3 +1,5 @@
+using Volo.Abp.Domain.Entities;
+
 namespace TobaccoDMSystemManagement.Domain.SystemLogs;
 
 /// <summary>
