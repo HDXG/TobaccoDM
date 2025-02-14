@@ -1,12 +1,12 @@
-﻿using Dedsi.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TobaccoDMSystemManagement.Domain.SystemLogs;
 using TobaccoDMSystemManagement.Domain.SystemMenus;
+using Volo.Abp.EntityFrameworkCore;
 
 namespace TobaccoDMSystemManagement.Infrastructure.EntityFrameworkCore
 {
     public class TobaccoDMSystemManagementDbContext(DbContextOptions<TobaccoDMSystemManagementDbContext> options)
-        : DedsiEfCoreDbContext<TobaccoDMSystemManagementDbContext>(options)
+        : AbpDbContext<TobaccoDMSystemManagementDbContext>(options)
     {
         public DbSet<SystemLog> SystemLogs { get; set; }
 

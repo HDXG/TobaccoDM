@@ -1,6 +1,4 @@
-﻿using System.DirectoryServices.ActiveDirectory;
-using SqlSugar;
-using Volo.Abp.Domain.Entities;
+﻿using Volo.Abp.Domain.Entities;
 using Check = Volo.Abp.Check;
 
 namespace TobaccoDMSystemManagement.Domain.SystemMenus;
