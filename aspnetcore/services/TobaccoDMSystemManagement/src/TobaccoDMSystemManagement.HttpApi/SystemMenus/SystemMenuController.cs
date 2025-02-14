@@ -43,4 +43,16 @@ public class SystemMenuController(ISystemMenuAppService systemMenuAppService):To
         return systemMenuAppService.DeleteSystemMenuAsync(id);
     }
 
+
+    /// <summary>
+    /// 获取菜单列表
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost]
+    public Task<List<SystemMenuDto>> GetSystemMenuListAsync()
+    {
+        return systemMenuAppService.GetSystemMenuListAsync();
+    }
+
+
 }

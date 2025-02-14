@@ -5,4 +5,6 @@ public class TobaccoDMSystemManagementConsts
     public const string ApplicationName = "TobaccoDMSystemManagement";
     
     public const string ConnectionStringName = "TobaccoDMSystemManagementDB";
+
+    public const string DbSchemaName = "dbo";
 }
