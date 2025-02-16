@@ -21,7 +21,7 @@ namespace TobaccoDMSystemManagement.Infrastructure.EntityFrameworkCore
             {
                 b.ToTable("system_menu", TobaccoDMSystemManagementConsts.DbSchemaName);
                 b.HasKey(a => a.Id);
-                b.HasMany(c => c.SubMenus).WithOne().HasForeignKey("ParentId");
+                b.HasMany(c => c.SubMenus).WithOne().HasForeignKey("ParentId").OnDelete(DeleteBehavior.Cascade);
             });
         }
     }
