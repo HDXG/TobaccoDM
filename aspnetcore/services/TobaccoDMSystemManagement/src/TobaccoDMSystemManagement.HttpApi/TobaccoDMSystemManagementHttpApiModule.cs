@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TobaccoDMSystemManagement.AppService;
+using TobaccoDMSystemManagement.Extensions;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
 
@@ -17,6 +18,11 @@ public class TobaccoDMSystemManagementHttpApiModule : AbpModule
         PreConfigure<IMvcBuilder>(mvcBuilder =>
         {
             mvcBuilder.AddApplicationPartIfNotExists(typeof(TobaccoDMSystemManagementHttpApiModule).Assembly);
+        });
+        context.Services.AddControllers(option =>
+        {
+            option.Filters.Add<HttpResponseExceptionFilter>();
+            option.Filters.Add<HttpResponseSuccessFilter>();
         });
     }
 }

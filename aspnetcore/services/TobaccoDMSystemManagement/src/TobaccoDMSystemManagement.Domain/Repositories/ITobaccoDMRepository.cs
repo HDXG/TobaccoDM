@@ -17,7 +17,7 @@ namespace TobaccoDMSystemManagement.Domain.Repositories
 
         Task<TEntity> GetIncludeAsync(Expression<Func<TEntity, bool>> wherePredicate, Expression<Func<TEntity, IEnumerable<TEntity>>> includePredicate);
 
-        Task<List<TEntity>> GetListIncludeAsync(Expression<Func<TEntity, IEnumerable<TEntity>>> includePredicate);
+        Task<List<TEntity>> GetListIncludeAsync(Expression<Func<TEntity, bool>> wherePredicate, Expression<Func<TEntity, IEnumerable<TEntity>>> includePredicate);
 
     }
 }

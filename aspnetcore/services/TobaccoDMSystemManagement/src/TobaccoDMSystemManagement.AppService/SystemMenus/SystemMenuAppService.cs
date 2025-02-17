@@ -41,7 +41,7 @@ public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : 
 {
     public async Task<List<SystemMenuDto>> GetSystemMenuListAsync()
     {
-        var entity = await systemMenuRepository.GetListIncludeAsync(x=>x.SubMenus);
+        var entity = await systemMenuRepository.GetListIncludeAsync(x=>x.IsStatus,x=>x.SubMenus);
         var entityPart = entity.Where(x => x.ParentId == null).ToList();
         if (entity.Count > 0 && entityPart.Count > 0)
         {
