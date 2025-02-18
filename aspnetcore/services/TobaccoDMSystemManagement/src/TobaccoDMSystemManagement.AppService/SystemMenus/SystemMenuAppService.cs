@@ -1,5 +1,6 @@
 ﻿using TobaccoDMSystemManagement.AppService.SystemMenus.Dtos;
 using TobaccoDMSystemManagement.Domain.SystemMenus;
+using Volo.Abp.Domain.Repositories;
 
 namespace TobaccoDMSystemManagement.AppService.SystemMenus;
 
@@ -40,15 +41,14 @@ public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : 
 {
     public async Task<List<SystemMenuDto>> GetSystemMenuListAsync()
     {
-        var entity = await systemMenuRepository.GetListAsync();
+        var entity = await systemMenuRepository.GetListIncludeAsync(x=>x.IsStatus,x=>x.SubMenus);
         var entityPart = entity.Where(x => x.ParentId == null).ToList();
         if (entity.Count > 0 && entityPart.Count > 0)
         {
             List<SystemMenuDto> systemMenuDtos = new List<SystemMenuDto>();
             foreach (var systemMenu in entityPart)
             {
-
-                systemMenuDtos.Add(SystemMenuSumMenusList(entity, systemMenu));
+                systemMenuDtos.Add(SystemMenuSumMenusList(systemMenu));
             }
             return systemMenuDtos;
         }
@@ -59,77 +59,48 @@ public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : 
 
     public async Task<SystemMenuDto> GetSystemMenuAsync(Guid id)
     {
-        var entity = await systemMenuRepository.GetListAsync();
-        if (entity.Count(x => x.Id == id) > 0)
+        var entity = await systemMenuRepository.GetIncludeAsync(x => x.Id == id, x => x.SubMenus);
+        if (entity != null)
         {
-            var systemMenu = entity.First(x => x.Id == id);
-            SystemMenuDto sysMenuDto = SystemMenuSumMenusList(entity, systemMenu);
+            SystemMenuDto sysMenuDto = SystemMenuSumMenusList(entity);
             return sysMenuDto;
         }
         else
         {
             return new SystemMenuDto();
         }
-
-
     }
 
-    private SystemMenuDto SystemMenuSumMenusList(List<SystemMenu> entity, SystemMenu systemMenu)
+    private SystemMenuDto SystemMenuSumMenusList(SystemMenu entity)
     {
         var sysMenuDto = new SystemMenuDto()
         {
-            Id = systemMenu.Id,
-            MenuName = systemMenu.MenuName,
-            ParentId = systemMenu.ParentId,
-            MenuPath = systemMenu.MenuPath,
-            Icon = systemMenu.Icon,
-            PermissionKey = systemMenu.PermissionKey,
-            ComponentPath = systemMenu.ComponentPath,
-            RouteName = systemMenu.RouteName,
-            ExternalLink = systemMenu.ExternalLink,
-            Remark = systemMenu.Remark,
-            OrderIndex = systemMenu.OrderIndex,
-            IsStatus = systemMenu.IsStatus
+            Id = entity.Id,
+            MenuName = entity.MenuName,
+            ParentId = entity.ParentId,
+            MenuPath = entity.MenuPath,
+            Icon = entity.Icon,
+            PermissionKey = entity.PermissionKey,
+            ComponentPath = entity.ComponentPath,
+            RouteName = entity.RouteName,
+            ExternalLink = entity.ExternalLink,
+            Remark = entity.Remark,
+            OrderIndex = entity.OrderIndex,
+            IsStatus = entity.IsStatus
         };
-        if (entity.Count(x => x.ParentId == systemMenu.Id) > 0)
+        if (entity.SubMenus.Count > 0)
         {
-            sysMenuDto.SubMenus = getListSystemMenuDto(entity, systemMenu.Id);
+            List<SystemMenuDto> systemMenuDtos = new List<SystemMenuDto>();
+            foreach (var item in entity.SubMenus)
+            {
+                systemMenuDtos.Add(SystemMenuSumMenusList(item));
+            }
+            sysMenuDto.SubMenus = systemMenuDtos;
         }
-
         return sysMenuDto;
     }
 
-    private List<SystemMenuDto> getListSystemMenuDto(List<SystemMenu> entity, Guid parent)
-    {
-        List<SystemMenuDto> systemMenuDtos = new List<SystemMenuDto>();
 
-        if (entity.Count(x => x.ParentId == parent) > 0)
-        {
-            foreach (SystemMenu systemMenu in entity.Where(x => x.ParentId == parent))
-            {
-                systemMenuDtos.Add(new SystemMenuDto()
-                {
-                    Id = systemMenu.Id,
-                    MenuName = systemMenu.MenuName,
-                    ParentId = systemMenu.ParentId,
-                    MenuPath = systemMenu.MenuPath,
-                    Icon = systemMenu.Icon,
-                    PermissionKey = systemMenu.PermissionKey,
-                    ComponentPath = systemMenu.ComponentPath,
-                    RouteName = systemMenu.RouteName,
-                    ExternalLink = systemMenu.ExternalLink,
-                    Remark = systemMenu.Remark,
-                    OrderIndex = systemMenu.OrderIndex,
-                    IsStatus = systemMenu.IsStatus,
-                    SubMenus = getListSystemMenuDto(entity, systemMenu.Id)
-                });
-            }
-        }
-        return systemMenuDtos;
-
-    }
-
-    /// <inheritdoc />
     public async Task<bool> CreateSystemMenuAsync(CreateSystemMenuInputDto input)
     {
         var   systemMenu = CreateSystemMenu(input, null);
@@ -171,10 +142,14 @@ public class SystemMenuAppService(ISystemMenuRepository systemMenuRepository) : 
         return systemMenu;
     }
 
+    /// <summary>
+    /// 删除方法
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<bool> DeleteSystemMenuAsync(Guid id)
     {
-        await systemMenuRepository.DeleteAsync(id);
-        return true;
+        return await systemMenuRepository.DeleteAsync(await systemMenuRepository.GetIncludeAsync(x=>x.Id==id,x=>x.SubMenus));
     }
 }
 

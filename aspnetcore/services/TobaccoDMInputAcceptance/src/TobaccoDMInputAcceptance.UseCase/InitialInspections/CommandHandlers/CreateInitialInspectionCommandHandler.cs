@@ -6,8 +6,13 @@ namespace TobaccoDMInputAcceptance.InitialInspections.CommandHandlers;
 
 public class CreateInitialInspectionCommandHandler(IInitialInspectionRepository inspectionRepository) : DedsiCommandHandler<CreateInitialInspectionCommand, bool>
 {
-    public override Task<bool> Handle(CreateInitialInspectionCommand command, CancellationToken cancellationToken)
+    public override async Task<bool> Handle(CreateInitialInspectionCommand command, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var initialInspection = new InitialInspection(GuidGenerator.Create(), command.InitialName, command.InitialDescription, command.InitialInspector);
+        initialInspection.AddTobaccoGrowerAndSetInitialInspectionId(command.TobaccoGrowers);
+
+        await inspectionRepository.InsertAsync(initialInspection,false, cancellationToken);
+        
+        return true;
     }
 }

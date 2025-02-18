@@ -55,6 +55,20 @@ public class InitialInspection : Entity<Guid>
     /// </summary>
     public ICollection<TobaccoGrower> TobaccoGrowers { get; private set; } = new List<TobaccoGrower>();
 
+    /// <summary>
+    /// 添加烟农并设置投入验收Id
+    /// </summary>
+    /// <param name="tobaccoGrowers"></param>
+    public void AddTobaccoGrowerAndSetInitialInspectionId(IEnumerable<TobaccoGrower> tobaccoGrowers)
+    {
+        foreach (var tobaccoGrower in TobaccoGrowers)
+        {
+            tobaccoGrower.ChangeInitialInspectionId(Id);
+            
+            AddTobaccoGrower(tobaccoGrower);
+        }
+    }
+    
     public void AddTobaccoGrower(TobaccoGrower tobaccoGrower)
     {
         TobaccoGrowers.Add(tobaccoGrower);
