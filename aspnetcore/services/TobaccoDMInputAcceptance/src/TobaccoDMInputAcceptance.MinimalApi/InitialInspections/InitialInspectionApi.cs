@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Dedsi.Ddd.CQRS.Mediators;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using TobaccoDMInputAcceptance.InitialInspections.CommandHandlers;
+using TobaccoDMInputAcceptance.InitialInspections.Commands;
+using TobaccoDMInputAcceptance.InitialInspections.Dtos;
 
 namespace TobaccoDMInputAcceptance.InitialInspections;
 
@@ -16,6 +21,12 @@ public static class InitialInspectionApi
             .MapGroup(TobaccoDMInputAcceptanceMinimalApi.ApiPrefix + "/InitialInspection")
             .WithTags("InitialInspection");
         
-        api.MapGet("/", () => "InitialInspection");
+        api.MapPost("/CreateInitialInspection", CreateInitialInspectionAsync);
+    }
+
+
+    private static Task<bool> CreateInitialInspectionAsync([FromBody] CreateInitialInspectionInputDto request, IDedsiMediator dedsiMediator, HttpContext httpContext)
+    {
+        return  dedsiMediator.SendAsync(new CreateInitialInspectionCommand(request.initialName, request. initialDescription, request.InitialInspectorInputDto, request.TobaccoGrowers), httpContext.RequestAborted);
     }
 }

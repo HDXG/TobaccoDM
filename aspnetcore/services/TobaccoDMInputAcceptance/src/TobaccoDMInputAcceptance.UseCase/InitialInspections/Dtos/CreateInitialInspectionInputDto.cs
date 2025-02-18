@@ -1,6 +1,5 @@
-﻿namespace TobaccoDMInputAcceptance.InitialInspections.Dtos;
+﻿using TobaccoDMInputAcceptance.InitialInspections.Commands;
 
-public class CreateInitialInspectionInputDto
-{
-    
-}
+namespace TobaccoDMInputAcceptance.InitialInspections.Dtos;
+
+public record CreateInitialInspectionInputDto(string initialName, string initialDescription, InitialInspectorInputDto InitialInspectorInputDto, TobaccoGrowersInputDto[] TobaccoGrowers);

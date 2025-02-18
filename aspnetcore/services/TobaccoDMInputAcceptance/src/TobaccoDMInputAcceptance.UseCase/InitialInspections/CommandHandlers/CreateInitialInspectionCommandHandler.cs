@@ -6,8 +6,22 @@ namespace TobaccoDMInputAcceptance.InitialInspections.CommandHandlers;
 
 public class CreateInitialInspectionCommandHandler(IInitialInspectionRepository inspectionRepository) : DedsiCommandHandler<CreateInitialInspectionCommand, bool>
 {
-    public override Task<bool> Handle(CreateInitialInspectionCommand command, CancellationToken cancellationToken)
+    public override async Task<bool> Handle(CreateInitialInspectionCommand command, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        //初验员
+        var initialInspector =new InitialInspector(command.InitialInspectorInputDto.UserId, command.InitialInspectorInputDto.UserName, command.InitialInspectorInputDto.DeptId);
+
+        var initialInspection = new InitialInspection(GuidGenerator.Create(), command.initialName, command.initialDescription, initialInspector);
+
+        //验收的烟农
+        foreach (var tobaccoGrower in command.TobaccoGrowers)
+        {
+            TobaccoGrower tobacco = new TobaccoGrower(GuidGenerator.Create(), initialInspection.Id, tobaccoGrower.name, tobaccoGrower.idCard, tobaccoGrower.implementationQuantity);
+            tobacco.ChangeInitialInspectionQuantity(0);
+            initialInspection.AddTobaccoGrower(tobacco);
+        }
+
+        await inspectionRepository.InsertAsync(initialInspection,false, cancellationToken);
+        return true;
     }
 }

@@ -7,7 +7,7 @@ namespace TobaccoDMInputAcceptance.InitialInspections;
 /// </summary>
 public class TobaccoGrower : Entity<Guid>
 {
-    protected TobaccoGrower(Guid id,Guid initialInspectionId,string name, string idCard, decimal implementationQuantity): base(id)
+    public TobaccoGrower(Guid id,Guid initialInspectionId,string name, string idCard, decimal implementationQuantity): base(id)
     {
         InitialInspectionId = initialInspectionId;
         Name = name;
