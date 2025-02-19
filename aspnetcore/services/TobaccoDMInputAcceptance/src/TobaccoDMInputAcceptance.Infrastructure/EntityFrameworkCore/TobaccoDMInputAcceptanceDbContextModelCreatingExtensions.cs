@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TobaccoDMInputAcceptance.InitialInspections;
+using TobaccoDMInputAcceptance.SubsidyRules;
 using Volo.Abp;
 
 namespace TobaccoDMInputAcceptance.EntityFrameworkCore;
@@ -34,6 +35,29 @@ public static class TobaccoDMInputAcceptanceDbContextModelCreatingExtensions
         builder.Entity<TobaccoGrower>(b =>
         {
             b.ToTable("TobaccoGrowers", TobaccoDMInputAcceptanceDomainOptions.DbSchemaName);
+            b.HasKey(x => x.Id);
+        });
+
+        builder.Entity<InvestmentRules>(b =>
+        {
+            b.ToTable("InvestmentRules", TobaccoDMInputAcceptanceDomainOptions.DbSchemaName);
+            
+            b.HasKey(x => x.Id);
+            
+            b.HasMany(e => e.ProjectCalculationFormula).WithOne().HasForeignKey(e => e.PartId).IsRequired();
+
+            b.HasMany(e => e.PublishingUnits).WithOne().HasForeignKey(e => e.PartId).IsRequired();
+        });
+
+        builder.Entity<ProjectCalculationFormula>(b =>
+        {
+            b.ToTable("ProjectCalculationFormula", TobaccoDMInputAcceptanceDomainOptions.DbSchemaName);
+            b.HasKey(x => x.Id);
+        });
+
+        builder.Entity<PublishingUnit>(b =>
+        {
+            b.ToTable("PublishingUnit", TobaccoDMInputAcceptanceDomainOptions.DbSchemaName);
             b.HasKey(x => x.Id);
         });
     }
