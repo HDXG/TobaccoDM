@@ -31,9 +31,6 @@ namespace TobaccoDMInputAcceptance.SubsidyRules
 
         public string CreateUserName { get; private set; }
 
-       
-
-
         /// <summary>
         /// 投入项目名称
         /// </summary>
@@ -150,7 +147,12 @@ namespace TobaccoDMInputAcceptance.SubsidyRules
     }
     
 
-    public record InvestInSmallCategories(Guid PartId,string PartName,Guid Id,string Name);
+    public class InvestInSmallCategories(Guid PartId,string PartName,Guid Id,string Name) : CodeNameRecord<Guid>(Id, Name)
+    {
+        public Guid PartId { get; private set; } = PartId;
+
+        public string PartName { get; private set; } = PartName;
+    }
 
     public class TypeOfInvestment(Guid Id,string Name):CodeNameRecord<Guid>(Id, Name);
 

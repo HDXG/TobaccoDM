@@ -43,7 +43,25 @@ public static class TobaccoDMInputAcceptanceDbContextModelCreatingExtensions
             b.ToTable("InvestmentRules", TobaccoDMInputAcceptanceDomainOptions.DbSchemaName);
             
             b.HasKey(x => x.Id);
-            
+
+            //投入规则小类
+            b.OwnsOne(p => p.InSmallCategories, c =>
+            {
+                c.ToJson();
+                c.Property(e => e.Id).HasMaxLength(36);
+                c.Property(e => e.Name).HasMaxLength(50);
+                c.Property(e => e.PartId).HasMaxLength(36);
+                c.Property(e => e.PartName).HasMaxLength(50);
+            });
+
+            //投入类型
+            b.OwnsOne(p => p.TypeInvestment, c =>
+            {
+                c.ToJson();
+                c.Property(e => e.Id).HasMaxLength(36);
+                c.Property(e => e.Name).HasMaxLength(50);
+            });
+
             b.HasMany(e => e.ProjectCalculationFormula).WithOne().HasForeignKey(e => e.PartId).IsRequired();
 
             b.HasMany(e => e.PublishingUnits).WithOne().HasForeignKey(e => e.PartId).IsRequired();
@@ -53,6 +71,40 @@ public static class TobaccoDMInputAcceptanceDbContextModelCreatingExtensions
         {
             b.ToTable("ProjectCalculationFormula", TobaccoDMInputAcceptanceDomainOptions.DbSchemaName);
             b.HasKey(x => x.Id);
+
+            //投入品类
+            b.OwnsOne(p => p.CategoryInvestment, c =>
+            {
+                c.ToJson();
+                c.Property(e => e.Id).HasMaxLength(36);
+                c.Property(e => e.Name).HasMaxLength(50);
+
+            });
+
+            //职业烟农选择
+            b.OwnsOne(p => p.TobaccoFarmerChoice, c =>
+            {
+                c.ToJson();
+                c.Property(e => e.Id).HasMaxLength(36);
+                c.Property(e => e.Name).HasMaxLength(50);
+            });
+
+            //建档立卡户类型
+            b.OwnsOne(p =>p.TypeOfRegisteredAccount, c =>
+            {
+                c.ToJson();
+                c.Property(e => e.Id).HasMaxLength(36);
+                c.Property(e => e.Name).HasMaxLength(50);
+            });
+
+            //烟叶品种  
+            b.OwnsOne(p => p.TobaccoVarieties, c =>
+            {
+                c.ToJson();
+                c.Property(e => e.Id).HasMaxLength(36);
+                c.Property(e => e.Name).HasMaxLength(50);
+            });
+
         });
 
         builder.Entity<PublishingUnit>(b =>
